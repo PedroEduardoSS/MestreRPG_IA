@@ -2,9 +2,9 @@
 
 Motor de RPG de mesa com narração por **Inteligência Artificial**, construído com **Python + Pygame**.
 
-> A ideia é simples: você cria o personagem, define a missão e a IA narra uma aventura única com começo, meio e fim — incluindo trilha sonora dinâmica, combate por turnos e painel lateral de jogo.
+> A ideia é simples: você cria o personagem, define a missão e a IA narra uma aventura única com começo, meio e fim — incluindo trilha sonora dinâmica, combate por turnos (em desenvolvimento) e painel lateral de jogo.
 >
-> Este projeto nasceu de uma aula de IA e cresceu até virar um motor completo de RPG. **Fork this and create your own world.** Troque as músicas, o prompt, as cores — e publique a sua própria aventura.
+> Este projeto nasceu de uma aula de IA com o objetivo de entenderIA. Se fizer um  **Fork** pode trocar as músicas, o prompt, as cores e o que mais quiser.
 
 ---
 
@@ -14,18 +14,18 @@ Motor de RPG de mesa com narração por **Inteligência Artificial**, construíd
 |---|---|
 | **Loading animado** | Partículas de brasa e logo com fade na abertura |
 | **Janela responsiva** | Redimensionável a qualquer tamanho; F11 para tela cheia |
-| **Criação de personagem** | Nome, raça e classe livres; a IA deduz atributos, inventário e habilidades |
+| **Criação de personagem** | Nome, raça e classe livres; a IA deduz atributos, inventário e habilidades (ainda arrumando)|
 | **Modo História** | Chat com a IA (Groq); histórico salvo automaticamente a cada mensagem |
-| **Arco narrativo** | A história tem início, meio e 2–3 finais possíveis — não é infinita |
-| **Replay** | Ao concluir, replaye com a mesma missão principal e histórico zerado |
+| **Arco narrativo** | A história tem início, meio e fim, pode escolher as opções que ela mostra no chat ou escrever sua própria.|
+| **Replay** | Ao concluir, replaye com a mesma missão principal e histórico zerado permite criar uma nova história e como respostas são livres vai ser diferente. |
 | **Painel lateral** | 5 abas: Fichas · Inventário · Missões · Batalha · Notas |
-| **Combate por turnos** | Botões de ação rápida; barras de HP coloridas; inimigos com IA tática |
-| **Música dinâmica** | A IA troca a trilha via `<MUSIC>clima</MUSIC>` em tempo real |
+| **Combate por turnos** | Botões de ação rápida; barras de HP coloridas; inimigos (em desenvolvimento) |
+| **Música dinâmica** | A IA troca a trilha via `<MUSIC>clima</MUSIC>` em tempo real (ainda com poucas opções) |
 | **Efeitos sonoros** | Hover, clique, combate, level-up, chuva ambiente e mais |
-| **Sistema de Loot** | A IA oferece itens via `<LOOT>` — jogador escolhe Pegar ou Ignorar |
-| **Progressão de XP** | Level-up com novos títulos, habilidades e atributos expandidos |
-| **Auto-save** | Cada mensagem salva; indicador de hora na interface |
-| **Modo offline** | Funciona sem chave Groq com respostas de demonstração |
+| **Sistema de Loot** | A IA oferece itens via `<LOOT>`, jogador escolhe Pegar ou Ignorar (em desenvolvimento)|
+| **Progressão de XP** | Level-up com novos títulos, habilidades e atributos expandidos (em desenvolvimento)|
+| **Auto-save** | Cada mensagem salva; indicador de hora na interface (arquivo json)|
+| **Modo offline** | Funciona sem chave Groq com respostas de demonstração (apenas para teste) |
 | **Barra de título escura** | Integração com DWM do Windows para visual dark |
 
 ---
@@ -34,7 +34,7 @@ Motor de RPG de mesa com narração por **Inteligência Artificial**, construíd
 
 ```bash
 # 1. Clone
-git clone https://github.com/seu-usuario/MestreRPG_IA.git
+git clone https://github.com/Gustavo-Gomide/MestreRPG_IA.git
 cd MestreRPG_IA
 
 # 2. Ambiente virtual
@@ -50,8 +50,9 @@ copy .env.example .env
 # Edite .env e adicione:  GROQ_API_KEY=gsk_...
 ```
 
-> **Sem chave Groq?** O jogo funciona normalmente em modo simulação com respostas pré-programadas.
+> **Sem chave Groq?** O jogo funciona normalmente em modo simulação com respostas pré-programadas, mas é bem ruim e só de teste.
 > Obtenha a chave **gratuita** em [console.groq.com/keys](https://console.groq.com/keys).
+> As histórias são dinâmicas e podem mudar seu tamanho a qualquer momento, dito isso não é exato, mas com o token gratuito consegui jogar 3 histórias +/- por dia.
 
 ```bash
 # 5. Executar
@@ -138,7 +139,7 @@ A narradora insere blocos que atualizam a interface em tempo real.
 <AMBIENT>chuva</AMBIENT>   <!-- inicia -->
 <AMBIENT>stop</AMBIENT>    <!-- para -->
 ```
-
+(Mecânicas de combate e relacionadas ainda em desenvolvimentoe correção)
 ### `<BATTLE>` / `<ENDBATTLE/>` — Combate
 ```xml
 <BATTLE>[
@@ -166,17 +167,20 @@ A narradora insere blocos que atualizam a interface em tempo real.
 ```
 → Exibe botões **Pegar** / **Ignorar** na aba Inventário.
 
+(Em ajuste e teste)
 ### `<QUEST>` — Missão no diário
 ```json
 <QUEST>{"nome": "A Chave Perdida", "descricao": "Encontre a chave nas ruínas.", "status": "Ativa"}</QUEST>
 ```
 Status: `"Ativa"`, `"Concluída"` ou `"Falhou"`.
 
+(Em desenvolvimento)
 ### `<PUZZLE>` — Pistas de investigação
 ```json
 <PUZZLE>{"titulo": "O Manuscrito", "pistas": ["Símbolo de olho", "Escrito em arcano"]}</PUZZLE>
 ```
 
+(Em correção)
 ### `<UPDATE>` — Evolução de personagem
 ```json
 <UPDATE>{"personagem_id": 1, "status": {"xp": 250, "nivel": 2, "hp_atual": 28},
@@ -246,6 +250,7 @@ MestreRPG_IA/
 - **Cores:** bloco `# Cores` em `settings.py`
 - **Fontes:** bloco `# Fontes` em `settings.py`
 
+(Pode só criar uma campanha nova passando a missão que ela terá de intro, mas para mais ajustes pode mudar o arquivo)
 ### Mudar o universo da história
 Em `states/story.py → _build_system_prompt()`, edite as primeiras linhas do array `partes`:
 ```python
@@ -272,7 +277,7 @@ Modelos Groq disponíveis: `llama-3.3-70b-versatile` · `llama3-70b-8192` · `ll
 | `F11` | Alternar tela cheia / janela |
 | `Enter` | Enviar mensagem no chat |
 | `Scroll` | Rolar chat, listas e campos de texto |
-| `←` `→` | Mover cursor nos campos de texto |
+| `←` `→` | Mover cursor nos campos de texto (letra por letra)|
 | `Backspace` / `Delete` | Editar texto nos campos |
 
 ---
@@ -296,7 +301,7 @@ O jogo usa o [Groq](https://groq.com) como motor de IA para a narração. A chav
    ```
 5. Salve o arquivo e rode o jogo normalmente com `python main.py`
 
-> **Sem chave?** O jogo continua funcionando em **modo simulação** com respostas pré-programadas — útil para testar a interface sem precisar de internet.
+> **Sem chave?** O jogo continua funcionando em **modo simulação** com respostas pré-programadas, é útil para testar a interface sem precisar de internet, mas é sempre a mesma coisa e sem muita qualidade (recomendado usar api).
 
 ---
 
@@ -316,4 +321,4 @@ O jogo usa o [Groq](https://groq.com) como motor de IA para a narração. A chav
 
 ---
 
-*Mundos: Uma Nova História — motor de RPG por Gustavo · powered by [Groq](https://groq.com) + [Pygame](https://pygame.org)*
+*Mundos: Uma Nova História, motor de RPG básico com IA feito por Gustavo · powered by [Groq](https://groq.com) + [Pygame](https://pygame.org)*
